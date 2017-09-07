@@ -1,0 +1,47 @@
+﻿[CONFIGURANDO O RABBITMQ]
+
+1º Execute o seguinte comando para adicionar o repositório APT ao seu /etc/apt/sources.list.d : (como administrador):
+# echo 'deb http://www.rabbitmq.com/debian/ testing main' | sudo tee /etc/apt/sources.list.d/rabbitmq.list
+
+2º Para evitar avisos sobre pacotes não assinados, adicione nossa chave pública à sua lista de chaves confiáveis:
+# wget -O- https://www.rabbitmq.com/rabbitmq-release-signing-key.asc | sudo apt-key add -
+
+3º Execute o seguinte comando para atualizar a lista de pacotes:
+# sudo apt-get update
+
+4º Instale o servidor rabbitmq:
+# sudo apt-get install rabbitmq-server
+
+5º Começando. O plugin de gerenciamento está incluído na distribuição RabbitMQ. Para habilitá-lo, use rabbitmq-plugins :
+# rabbitmq-plugins enable rabbitmq_management
+
+6º Portas de acesso. Para ter acesso ao painel adm pelo browser:
+# [host]:15672
+
+7º Login padrão: Username: guest Password: guest
+
+Obs: o usuario guest só será acessado caso seja por localhost. Remotamente ele não é permitido! Caso seja necessário acessar o painel adm remotamente, será necessário criar um novo usuário adm para ter acesso... Vamos lá!
+
+[CRIANDO USUÁRIO ADMINISTRADOR REMOTO]
+
+8º No terminal execute em ordem:
+
+spider = usuario
+homem = senha
+
+Criando um usuário:
+# rabbitmqctl add_user spider homem
+
+Colocando o usuário como administrador:
+# rabbitmqctl set_user_tags spider administrator
+
+Adicionando permissiões de administrador:
+# rabbitmqctl set_permissions -p / spider ".*" ".*" ".*"
+
+9º Reinicia o servidor:
+# service rabbitmq-server restart
+
+10º Acesse pelo browser:
+# [host]:15672
+
+Acesse com o novo usuário, para acesso remoto.
